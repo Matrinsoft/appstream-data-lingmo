@@ -1,0 +1,45 @@
+name: Build .deb package
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:trixie
+    steps:
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y git ca-certificates
+
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          apt-get update
+          apt-get install -y build-essential debhelper devscripts dh-make
+
+      - name: Build .deb
+        run: dpkg-buildpackage -b -us -uc
+
+      - name: Create release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="build+$(date -u +%y%m%d+%H%M)"
+          DEBS=$(find .. -name '*.deb' ! -name '*dbgsym*' | tr '\n' ' ')
+          if [ -n "$DEBS" ]; then
+            gh release create "$TAG" $DEBS \
+              --repo "${{ github.repository }}" \
+              --title "Build $TAG" \
+              --generate-notes
+          fi
