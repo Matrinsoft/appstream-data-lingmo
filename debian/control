@@ -1,0 +1,14 @@
+Source: appstream-data-lingmo
+Section: metapackages
+Priority: optional
+Maintainer: Matrinsoft <noreply@github.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/Matrinsoft/appstream-data-lingmo
+
+Package: appstream-data-lingmo
+Architecture: all
+Depends: ${misc:Depends}
+Description: Lingmo OS appstream data
+ AppStream metadata for the Lingmo OS software center,
+ providing application information and metadata.

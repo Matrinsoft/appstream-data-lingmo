@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	dh_auto_install
+	install -d $(DESTDIR)/usr/share/appstream
+	install -m 644 data/*.xml $(DESTDIR)/usr/share/appstream/ 2>/dev/null || true
+	install -m 644 data/*.yml $(DESTDIR)/usr/share/appstream/ 2>/dev/null || true

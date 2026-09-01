@@ -1,0 +1,6 @@
+appstream-data-lingmo (1.0.0) unstable; urgency=low
+
+  * Initial release.
+  * Added Lingmo OS appstream metadata.
+
+ -- Matrinsoft <noreply@github.com>  Tue, 01 Sep 2026 00:00:00 +0000
